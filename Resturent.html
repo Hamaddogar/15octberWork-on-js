@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style type="text/css">
+        .t-center {
+
+
+            text-align: center;
+        }
+    </style>
+    <script type="text/javascript">
+        class Dish {
+            constructor(name, price) {
+                this.name = name;
+                this.price = price;
+
+            }
+        }
+
+        var totalDish = [];
+
+        var totalPrice = 0;
+        var discount = totalPrice;
+
+        function odercheck() {
+
+            totalPrice = null;
+            discount = null;
+            event.preventDefault();
+            totalDish.length = 0;
+            let alltag = document.querySelectorAll("input");
+            alltag.forEach(function (tagget) {
+                if (tagget.checked) {
+
+                    let dishName = tagget.getAttribute('data-name');
+
+                    let dishPrice = tagget.getAttribute('data-price');
+                    var dishObject = new Dish(dishName, dishPrice);
+                    totalDish.push(dishObject);
+                    var dishQuanitity = tagget.parentElement.nextElementSibling.firstChild.value;
+                    if (dishQuanitity != 0) {
+                        totalPrice += +(dishPrice * dishQuanitity);
+                    }
+                    if (totalPrice > 500) {
+                        discount = totalPrice * 0.90;
+
+                    }
+
+                }
+
+
+            });
+            console.log("totalprice =" + totalPrice);
+            console.log("disount = " + discount);
+        }
+    </script>
+</head>
+
+<body>
+    <form onsubmit="odercheck()">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Dish Name</th>
+                    <th> Oder</th>
+                    <th>Qty</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>Beryani</td>
+                    <td><Input type="checkbox" data-name="Beryani" value="Beryani" data-price="300"></Input>
+                    <td><input type="number" value="1"></td>
+                    </td>
+                    <td>300</td>
+                </tr>
+                <tr>
+                    <td>qorma</td>
+                    <td><Input type="checkbox" data-name="qorma" value="qorma" data-price="500"></Input>
+                    <td><input type="number" value="1"></td>
+                    <td>500</td>
+                </tr>
+                <tr>
+                    <td>jelferzi</td>
+                    <td><Input type="checkbox" data-name="jelferzi" value="jelferzi" data-price="600"></Input>
+                    <td><input type="number" value="1"></td>
+                    <td>600</td>
+                </tr>
+                <tr>
+                    <td>Nahri</td>
+                    <td><Input type="checkbox" value="Nahri" data-name="Nahri" data-price="200"></Input>
+                    <td><input type="number" value="1"></td>
+                    <td>200</td>
+                </tr>
+                <tr>
+                    <td>pizza</td>
+                    <td><Input type="checkbox" value="pizza" data-name="pizza" data-price="1800"></Input></td>
+                    <td><input type="number" value="1"></td>
+                    <td>1800</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td class="t-center" colspan="4"><Input type="submit"></Input></td>
+                </tr>
+
+            </tfoot>
+        </table>
+    </form>
+
+</body>
+
+</html>
