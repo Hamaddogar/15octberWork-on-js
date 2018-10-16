@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/materialize.css">
+    <link rel="stylesheet" href="css/materialize.min.css">
+    <script src="js/materialize.js"></script>
+    <script src="js/materialize.min.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <h4 style="text-align: center">Run timeCreate Object filter && showitem</h4>
+        <form onsubmit="addinArray()">
+            <label for="UName">Name:
+                <input type="text" id="UName" name="UName"></label>
+            <br /> <br />
+            <label for="UNic">CINC: <input type="text" id="UNic" name="UNic"></label>
+            <br /> <br />
+            <label for="UHobby">Hobby</label><input type="text" id="UHobby" name="UHobby">
+            <br /> <br />
+            <label>Select option</label>
+            <select name="" id="typeselectt" class="browser-default">
+                <option value="">---Choose Option---</option>
+                <option value="Teacher">Teacher</option>
+                <option value="student"> student</option>
+
+            </select>
+
+
+
+
+
+
+
+            <br /> <br />
+            <button class="btn waves-effect waves-light" type="submit" name="action">Submit</button>
+          
+            <button class="btn waves-effect waves-light" onclick="showitem()" data-name="Student">Show Student</button>
+            <button class="btn waves-effect waves-light" onclick="showitem()" data-name="Teacher">Show Teacher</button>
+     
+            <div id="diplayitem"></div>
+
+
+        </form>
+    </div>
+    <script type="text/javascript">
+        class Person {
+
+
+            constructor() {
+
+                this.name = null;
+                this.NIC = null;
+                this.Hobby = null;
+                this.type = null;
+            }
+
+        }
+        class Teacher extends Person {
+
+
+        }
+
+
+        class Student extends Person {
+
+
+        }
+        var personArray = []; //arraya store
+
+
+        function addinArray() {
+
+            event.preventDefault();
+
+            if (typeselectt.value == 'Teacher') {
+                var teacher = new Teacher();
+
+                teacher.name = UName.value;
+                teacher.NIC = UNic.value;
+                teacher.Hobby = UHobby.value;
+                teacher.type = teacher.constructor.name;
+                personArray.push(teacher);
+
+
+            } else {
+                var student = new Student();
+                student.name = UName.value;
+                student.NIC = UNic.value;
+                student.Hobby = UHobby.value;
+                student.type = student.constructor.name;
+                personArray.push(student);
+
+            }
+            localStorage.setItem("PersonData", JSON.stringify(personArray));
+        }
+
+        function showitem() {
+            event.preventDefault();
+            var itemget = personArray.filter((item) => {
+                if (item.type == event.target.getAttribute("data-name")) {
+                    return true;
+                }
+            });
+            itemget.forEach((item) => {
+                diplayitem.innerHTML = "Name = " + item.name + "<br/> CNIC = " + item.NIC + " <br/> Hobby = " +
+                    item.Hobby + " <br/> Type = " + item.type;
+
+            });
+
+        }
+    </script>
+</body>
+
+</html>
