@@ -13,52 +13,7 @@
             text-align: center;
         }
     </style>
-    <script type="text/javascript">
-        class Dish {
-            constructor(name, price) {
-                this.name = name;
-                this.price = price;
 
-            }
-        }
-
-        var totalDish = [];
-
-        var totalPrice = 0;
-        var discount = totalPrice;
-
-        function odercheck() {
-
-            totalPrice = null;
-            discount = null;
-            event.preventDefault();
-            totalDish.length = 0;
-            let alltag = document.querySelectorAll("input");
-            alltag.forEach(function (tagget) {
-                if (tagget.checked) {
-
-                    let dishName = tagget.getAttribute('data-name');
-
-                    let dishPrice = tagget.getAttribute('data-price');
-                    var dishObject = new Dish(dishName, dishPrice);
-                    totalDish.push(dishObject);
-                    var dishQuanitity = tagget.parentElement.nextElementSibling.firstChild.value;
-                    if (dishQuanitity != 0) {
-                        totalPrice += +(dishPrice * dishQuanitity);
-                    }
-                    if (totalPrice > 500) {
-                        discount = totalPrice * 0.90;
-
-                    }
-
-                }
-
-
-            });
-            console.log("totalprice =" + totalPrice);
-            console.log("disount = " + discount);
-        }
-    </script>
 </head>
 
 <body>
@@ -114,6 +69,80 @@
             </tfoot>
         </table>
     </form>
+    <script type="text/javascript">
+
+    //create classs
+        class Dish {
+            constructor(name, price,dishquantity) {
+                this.name = name;
+                this.price = price;
+                this.qty=  dishquantity;
+
+            }
+        }
+        
+
+        var totalDish =  JSON.parse(localStorage.getItem("DishName"))||[];
+        // all data in total dish 
+        // forEach for geting all data from data base
+         totalDish.forEach((dish)=>{
+                 let dishname = dish.name;
+                 var alltags = document.querySelectorAll("td");
+                  for( var i=0 ; i<alltags.length; i++)
+                  {
+                        if(alltags[i] .innerText==dishname)
+                        {
+                            var inputCheck= alltags[i].nextElementSibling.querySelector("input");
+                            inputCheck .checked =true;
+                             var qutatity = alltags[i].nextElementSibling.nextElementSibling.querySelector("input");
+                                qutatity.value = dish.qty;
+                           
+                        }
+                       
+                  }
+
+
+             });
+
+        var totalPrice = 0;
+        var discount = totalPrice;
+
+        function odercheck() {
+
+            totalPrice = null;
+            discount = null;
+            event.preventDefault();
+            totalDish.length = 0;
+            let alltag = document.querySelectorAll("input");
+            alltag.forEach(function (tagget) {
+                if (tagget.checked) {
+
+                    let dishName = tagget.getAttribute('data-name');
+
+                    let dishPrice = tagget.getAttribute('data-price');
+                    var dishQuanitity = tagget.parentElement.nextElementSibling.firstChild.value;
+                    // create object of class
+                    
+                    var dishObject = new Dish(dishName, dishPrice,dishQuanitity);
+                    totalDish.push(dishObject);
+                    if (dishQuanitity != 0) {
+                        totalPrice += +(dishPrice * dishQuanitity);
+                    }
+                    if (totalPrice > 500) {
+                        discount = totalPrice * 0.90;
+
+                    }
+
+                }
+
+            });
+            console.log("totalprice =" + totalPrice);
+            console.log("disount = " + discount);
+            
+            localStorage.setItem("DishName",JSON.stringify(totalDish))
+       
+        }
+    </script>
 
 </body>
 
